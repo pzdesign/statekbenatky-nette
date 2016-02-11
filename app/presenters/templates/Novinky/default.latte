@@ -1,0 +1,88 @@
+@{block content}
+<section id="novinky" class="stickyTable mainpage">
+
+                 <div class="col-sm-12">
+                    <h2 class="page-header text-center">
+                        Vítejte
+                    </h2>
+                    <hr>
+
+                   <span n:if="$user->loggedIn" class="page-header text-center create" > 
+                   <a class="text-center" n:href="Novinky:create" ><i class="fa fa-pencil fa-4x"></i><br>Napsat nový</a>
+                   </span>
+                 </div>
+<div class="row">
+    <div class="col-sm-12">
+{if count($posts) > 0}
+    {foreach $posts as $post}
+
+                <div class="col-sm-6 col-lg-4">
+                    <div class="panel panel-default card card-1">
+                        <div class="panel-heading {if $post->category == 'Aktuality'}aktuality{/if} {if $post->category == 'Klub'}klub{/if}">
+                            <h3>
+                            <a n:href="Novinky:show $post->id" >{$post->title|truncate:50}</a> 
+                            <img src="{$basePath}/img/thumbtack-pushpin-2-th.png" alt='Thumbtack/pushpin 2 clip art'/>
+                            </h3>
+                        
+                        </div>
+                        <div class="panel-body ">
+                        <p class="date text-muted">{$post->created_at|date:'j.m.Y'}</p>
+
+                            <p>{$post->content|truncate:220|noescape}</p>
+
+                        </div>
+                        <div class="panel-footer">
+<a href="
+{if $post->category == 'Novinky'}{link Novinky:novinky}{/if}
+{if $post->category == 'Aktuality'}{link Novinky:aktuality}{/if}
+{if $post->category == 'Klub'}{link Klub:default}{/if}">
+<span class="label label-warning">{$post->category}</span></a>
+                        </div>
+                    </div>
+
+                </div>
+
+
+    {/foreach}
+    {else}
+                        <h3 class="page-header text-center">
+                            Zatím nikdo nic nenapsal :(
+                        </h3>
+
+    {/if}
+    </div>
+</div>
+</section>
+                 <div class="col-sm-12">
+                    <h2 class="page-header text-center">
+                        Ukázka z galerie
+                    </h2>
+                    <hr>
+                 </div>
+
+<section class="no-padding" id="portfolio">
+        <div class="container-fluid">
+  <div class="row">
+  {if count($images) > 0}
+{foreach $images as $keyy => $image}
+
+<div class="col-md-4 ">
+    <a class="thumbnail" href="{$basePath}/{$albumName}/{$image}" data-lightbox="roadtrip">
+        <img class="img-responsive" src="{$basePath}/{$albumName}/{$image}" >
+
+    </a>
+</div>
+  {/foreach}
+
+      {else}
+    <p class="page-header text-center">
+        Zatím nemám žádné fotky. :(
+    </p>
+      {/if}
+
+</div>
+        </div>
+    </section>
+
+{/block}
+
